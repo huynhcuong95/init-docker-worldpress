@@ -1,7 +1,5 @@
 #!/bin/sh
 
-export $(grep -v '^#' .env | xargs)
-
 echo "🔃 Waiting for MySQL to be ready..."
 
 until mysql -h db -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" -e "SELECT 1;" 2>/dev/null; do
