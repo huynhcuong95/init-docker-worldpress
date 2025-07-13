@@ -25,6 +25,9 @@ services:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       UPLOAD_LIMIT: 256M
+      PMA_PORT: 3306
+      VIRTUAL_HOST: ${URL_WORDPRESS}
+      VIRTUAL_PATH: /admin
     networks:
       - wpsite
 
@@ -70,13 +73,14 @@ services:
 
   nginx:
     image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - wordpress
       - phpmyadmin
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "80:80"
     networks:
       - wpsite
 

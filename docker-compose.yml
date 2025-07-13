@@ -23,6 +23,9 @@ services:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       UPLOAD_LIMIT: 256M
+      PMA_PORT: 3306
+      VIRTUAL_HOST: ${URL_WORDPRESS}
+      VIRTUAL_PATH: /admin
     networks:
       - wpsite
 
@@ -65,7 +68,6 @@ services:
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
     networks:
       - wpsite
-
 
 networks:
   wpsite:
