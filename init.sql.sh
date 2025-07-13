@@ -10,7 +10,7 @@ echo "✅ MySQL is ready."
 
 echo "🔁 Replacing localhost with env URL..."
 
-sed "s|http://localhost:8000|${URL_WORDPRESS}:${WP_PORT}|g" /db/wordpress.sql > /tmp/updated.sql
+sed "s|http://localhost:8000|${URL_WORDPRESS}|g" /db/wordpress.sql > /tmp/updated.sql
 
 echo "📥 Importing SQL into database..."
 mysql -h db -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" < /tmp/updated.sql
