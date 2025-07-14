@@ -26,6 +26,7 @@ services:
       PMA_PORT: 3306
       VIRTUAL_HOST: ${URL_WORDPRESS}
       VIRTUAL_PATH: /admin
+      TRUST_PROXY_HEADERS: 1
     networks:
       - wpsite
 

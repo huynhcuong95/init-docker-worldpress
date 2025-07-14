@@ -13,7 +13,7 @@ db_data/
 */wp-comments-post.php
 */wp-config-sample.php
 */wp-cron.php
-*/wp-config.php
+# */wp-config.php
 # */.htaccess
 */wp-config-docker.php
 */wp-links-opml.php
