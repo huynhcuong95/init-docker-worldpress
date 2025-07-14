@@ -14,7 +14,7 @@ db_data/
 */wp-config-sample.php
 */wp-cron.php
 */wp-config.php
-*/.htaccess
+# */.htaccess
 */wp-config-docker.php
 */wp-links-opml.php
 */wp-load.php
