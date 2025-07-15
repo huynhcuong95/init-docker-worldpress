@@ -138,12 +138,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Cần thêm dòng này để ngăn redirect loop
 define('FORCE_SSL_ADMIN', true);
 
+// Force HTTPS if behind a proxy (like Cloudflare)
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
-}
-
-if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-    $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_FORWARDED_HOST'];
 }
 
 /** Sets up WordPress vars and included files. */
