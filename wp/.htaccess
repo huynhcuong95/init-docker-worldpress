@@ -4,17 +4,12 @@
   RewriteBase /
   RewriteRule ^index\.php$ - [L]
 
-  # Nếu request không phải file hoặc thư mục thực
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-
-  # Nếu đi qua proxy mà vẫn là HTTP → buộc redirect sang HTTPS
-  RewriteCond %{HTTP:X-Forwarded-Proto} =http
-  RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
   RewriteRule . /index.php [L]
 </IfModule>
 
-# Bắt buộc bật HTTPS cho PHP hiểu đúng scheme nếu đi qua proxy
-SetEnvIf X-Forwarded-Proto "https" HTTPS=on
+# Dành cho proxy/nginx/Cloudflare hiểu là HTTPS
+SetEnvIf X-Forwarded-Proto https HTTPS=on
 # END WordPress
