@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Đường dẫn đến functions.php của theme đang xài
-THEME_FUNCTIONS="/var/www/html/wp-content/themes/YOUR_THEME/functions.php"
+THEME_FUNCTIONS="/var/www/html/wp-content/themes/astra/functions.php"
 
 # Đoạn code cần chèn
 INJECT_CODE=$(cat <<EOF
