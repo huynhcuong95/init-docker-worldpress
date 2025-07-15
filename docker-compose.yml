@@ -1,36 +1,9 @@
+version: '3.8'
+
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx-proxy
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./certs:/etc/nginx/certs
-      - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
-    networks:
-      - wpsite
-
-  nginx-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: nginx-letsencrypt
-    restart: always
-    environment:
-      NGINX_PROXY_CONTAINER: nginx-proxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certs:/etc/nginx/certs
-      - ./vhost.d:/etc/nginx/vhost.d
-      - ./html:/usr/share/nginx/html
-      - ./acme:/etc/acme.sh
-    networks:
-      - wpsite
-
   db:
     image: mysql:5.7
+    restart: always
     volumes:
       - ./db_data:/var/lib/mysql
     environment:
@@ -47,13 +20,12 @@ services:
       - db
     image: phpmyadmin/phpmyadmin
     restart: always
+    ports:
+      - "8081:80"  # ← Sử dụng cổng host 8081
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       UPLOAD_LIMIT: 256M
-      VIRTUAL_HOST: admin.thangmay.epms.vn
-      LETSENCRYPT_HOST: admin.thangmay.epms.vn
-      LETSENCRYPT_EMAIL: your-email@example.com
     networks:
       - wpsite
 
@@ -82,6 +54,8 @@ services:
       - init-db
     image: wordpress:latest
     restart: always
+    ports:
+      - "8082:80"  # ← Sử dụng cổng host 8082
     volumes:
       - ./wp:/var/www/html
       - ./lib/themes:/var/www/html/wp-content/themes
@@ -92,9 +66,6 @@ services:
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      VIRTUAL_HOST: thangmay.epms.vn
-      LETSENCRYPT_HOST: thangmay.epms.vn
-      LETSENCRYPT_EMAIL: your-email@example.com
     networks:
       - wpsite
 
