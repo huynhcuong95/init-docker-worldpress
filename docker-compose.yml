@@ -61,6 +61,7 @@ services:
       - ./lib/themes:/var/www/html/wp-content/themes
       - ./lib/plugins:/var/www/html/wp-content/plugins
       - ./lib/languages:/var/www/html/wp-content/languages
+      - ./entrypoint.sh:/entrypoint.sh
     entrypoint: ["/entrypoint.sh"]
     environment:
       WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
