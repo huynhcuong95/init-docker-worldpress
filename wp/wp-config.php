@@ -125,26 +125,18 @@ define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
 // }
 // (we include this by default because reverse proxying is extremely common in container environments)
 
-if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
-	eval($configExtra);
-}
-
-// Xóa hết các define WP_HOME và WP_SITEURL cũ
-// Thêm vào cuối file (trước /* That's all, stop editing! */)
-
-
-// CẤU HÌNH TỪNG BƯỚC ĐỂ GIẢI QUYẾT VẤN ĐỀ CHUYỂN HƯỚNG
+// Bước 1: Giúp WordPress nhận biết nó đang chạy qua HTTPS
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
 }
 
-// BƯỚC 1: TẠM THỜI VÔ HIỆU HÓA MỌI CHUYỂN HƯỚNG
-// Điều này sẽ phá vỡ vòng lặp redirect
+// Bước 2: Vô hiệu hóa hoàn toàn các tính năng chuyển hướng của WordPress
+// Điều này NGĂN CHẶN vòng lặp redirect ngay từ gốc
 define('FORCE_SSL_ADMIN', false);
 define('FORCE_SSL_LOGIN', false);
 
-// BƯỚC 2: CHỈ ĐỊNH URL RÕ RÀNG
-// Dùng hàm này để WordPress luôn sử dụng URL chúng ta muốn
+// Bước 3: ÉP BUỘC WordPress phải sử dụng URL HTTPS, bỏ qua giá trị trong database
+// Đây là phần quan trọng nhất để phá vỡ vòng lặp
 add_filter('option_home', function($old) {
     return 'https://thangmay.epms.vn';
 });
@@ -152,11 +144,21 @@ add_filter('option_siteurl', function($old) {
     return 'https://thangmay.epms.vn';
 });
 
-// BƯỚC 3: ĐỐI VỚI WP-CLI HOẶC CÁC TRƯỜNG HỢP ĐẶC BIỆT
-if (defined('WP_CLI')) {
-    define('WP_HOME', 'https://thangmay.epms.vn');
-    define('WP_SITEURL', 'https://thangmay.epms.vn');
+// Bước 4: Cấu hình bảo mật và proxy
+define('WP_HOME', 'https://thangmay.epms.vn');
+define('WP_SITEURL', 'https://thangmay.epms.vn');
+define('WP_DEBUG', false);
+define('WP_DEBUG_DISPLAY', false);
+
+// Cấu hình cho môi trường proxy (như Cloudflare)
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
 }
+
+// ===================================================================
+// === KẾT THÚC CẤU HÌNH ===
+// ===================================================================
+
 
 /* That's all, stop editing! Happy publishing. */
 
