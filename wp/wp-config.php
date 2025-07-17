@@ -124,15 +124,13 @@ define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
 // }
 // (we include this by default because reverse proxying is extremely common in container environments)
 
-if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
-	eval($configExtra);
-}
+// if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
+// 	eval($configExtra);
+// }
 
-if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-    $_SERVER['HTTPS'] = 'on';
-}
-
-define('FORCE_SSL_ADMIN', true);
+// if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+//     $_SERVER['HTTPS'] = 'on';
+// }
 
 /* That's all, stop editing! Happy publishing. */
 
