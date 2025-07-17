@@ -26,6 +26,7 @@ services:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       UPLOAD_LIMIT: 256M
+      PHP_UPLOAD_LIMIT: 256M
     networks:
       - wpsite
 
