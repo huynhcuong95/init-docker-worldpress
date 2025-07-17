@@ -1,4 +1,5 @@
 <?php
+$_SERVER['HTTPS'] = 'on';
 /**
  * The base configuration for WordPress
  *
@@ -128,23 +129,21 @@ if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
 	eval($configExtra);
 }
 
-// Cấu hình cho proxy và HTTPS
+// Xóa hết các define WP_HOME và WP_SITEURL cũ
+// Thêm vào cuối file (trước /* That's all, stop editing! */)
+
+// Cấu hình để WordPress nhận biết HTTPS dù Cloudflare có cấu hình gì
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
 }
 
-// Cấu hình URL chính xác
+// Chỉ định URL trực tiếp (QUAN TRỌNG)
 define('WP_HOME', 'https://thangmay.epms.vn');
 define('WP_SITEURL', 'https://thangmay.epms.vn');
 
-// Bắt buộc dùng HTTPS
-define('FORCE_SSL_ADMIN', true);
-define('FORCE_SSL_LOGIN', true);
-
-// Cấu hình cho proxy
-if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-    $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-}
+// Vô hiệu hóa các chuyển hướng tự động của WordPress
+define('FORCE_SSL_ADMIN', false);
+define('FORCE_SSL_LOGIN', false);
 
 /* That's all, stop editing! Happy publishing. */
 
@@ -153,6 +152,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/' );
 }
 
+header('Access-Control-Allow-Origin: https://thangmay.epms.vn');
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
