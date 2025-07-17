@@ -64,6 +64,14 @@ define( 'DB_CHARSET', getenv_docker('WORDPRESS_DB_CHARSET', 'utf8') );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', getenv_docker('WORDPRESS_DB_COLLATE', '') );
 
+
+define( 'FTP_HOST', 'thangmay.epms.vn' );
+define( 'FTP_USER', 'thongwe' );
+define( 'FTP_PASSWORD', 'V8n4WAXtKy6D!M%mD6' );
+define( 'FTP_METHOD', 'direct' );
+
+
+
 /**#@+
  * Authentication unique keys and salts.
  *
