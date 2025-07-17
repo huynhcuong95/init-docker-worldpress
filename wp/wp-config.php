@@ -64,14 +64,6 @@ define( 'DB_CHARSET', getenv_docker('WORDPRESS_DB_CHARSET', 'utf8') );
 /** The database collate type. Don't change this if in doubt. */
 define( 'DB_COLLATE', getenv_docker('WORDPRESS_DB_COLLATE', '') );
 
-
-define( 'FTP_HOST', 'thangmay.epms.vn' );
-define( 'FTP_USER', 'thongwe' );
-define( 'FTP_PASSWORD', 'V8n4WAXtKy6D!M%mD6' );
-define( 'FTP_METHOD', 'direct' );
-
-
-
 /**#@+
  * Authentication unique keys and salts.
  *
@@ -132,13 +124,15 @@ define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
 // }
 // (we include this by default because reverse proxying is extremely common in container environments)
 
-// if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
-// 	eval($configExtra);
-// }
+if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
+	eval($configExtra);
+}
 
-// if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-//     $_SERVER['HTTPS'] = 'on';
-// }
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+
+define('FORCE_SSL_ADMIN', true);
 
 /* That's all, stop editing! Happy publishing. */
 
