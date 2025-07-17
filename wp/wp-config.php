@@ -128,11 +128,23 @@ if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
 	eval($configExtra);
 }
 
+// Cấu hình cho proxy và HTTPS
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     $_SERVER['HTTPS'] = 'on';
 }
 
+// Cấu hình URL chính xác
+define('WP_HOME', 'https://thangmay.epms.vn');
+define('WP_SITEURL', 'https://thangmay.epms.vn');
+
+// Bắt buộc dùng HTTPS
 define('FORCE_SSL_ADMIN', true);
+define('FORCE_SSL_LOGIN', true);
+
+// Cấu hình cho proxy
+if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+}
 
 /* That's all, stop editing! Happy publishing. */
 
