@@ -34,12 +34,12 @@ db_data/
 # */wp-content/uploads/
  
 # Ignore all plugins except your custom ones
-lib/*
+# lib/*
 lib.zip
 # wp/
  
 # Ignore all themes except your custom one
-lib/themes/*
+# lib/themes/*
  
 # Ignore system files
 .DS_Store
