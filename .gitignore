@@ -31,7 +31,7 @@ db_data/
 */wp-content/index.php
 */wp-content/backups/
 */wp-content/upgrade/
-*/wp-content/uploads/
+# */wp-content/uploads/
  
 # Ignore all plugins except your custom ones
 lib/*
