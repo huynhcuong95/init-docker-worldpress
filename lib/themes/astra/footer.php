@@ -329,6 +329,64 @@ if ( ! defined( 'ABSPATH' ) ) {
   50%      { opacity: 0.3; }
 }
 
+@media (max-width: 768px) {
+  #chat-container {
+    width: 90%;
+    right: 5%;
+    bottom: 10px;
+    height: 80vh;
+    max-height: 80vh;
+    border-radius: 12px;
+  }
+
+  #chat-messages {
+    padding: 10px;
+    max-height: calc(80vh - 120px);
+    font-size: 14px;
+  }
+
+  #chat-input-container {
+    padding: 8px;
+  }
+
+  #chat-input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  #chat-send {
+    width: 40px;
+    height: 40px;
+  }
+
+  #chat-toggle {
+    bottom: 60px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+  }
+
+  #phone-call {
+    bottom: 140px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .wrap-phone-border {
+    bottom: 110px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 16px;
+    font-size: 16px;
+  }
+}
+
 </style>
 
 <!-- Nút mở chat -->
