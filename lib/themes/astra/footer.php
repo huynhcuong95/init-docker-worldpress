@@ -388,8 +388,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 .wrap-phone-border {
     position: fixed;
-    bottom: calc(200px - 70px/2 - 12px);
-    right: calc( 64px - 70px/2 - 12px);
+    bottom: calc(200px - 70px/2 - 10px);
+    right: calc( 64px - 70px/2 - 10px);
     width: 70px;
     height: 70px;
     border-radius: 50px;
@@ -397,12 +397,14 @@ if ( ! defined( 'ABSPATH' ) ) {
     background: transparent;
     animation: phone-ripple 3s infinite ease-in;
 }
-.wrap-phone-border {
-    bottom: calc(140px - 60px/2 - 10px);
-    right: calc( 20px - 60px/2 - 10px);
+@media (max-width: 768px) {
+  .wrap-phone-border {
+    bottom: calc(140px - 60px/2 - 6px);
+    right: calc(20px - 60px/2 - 6px);
     width: 60px;
     height: 60px;
   }
+}
 </style>
  
 <!-- Nút mở chat -->
