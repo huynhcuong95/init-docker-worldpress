@@ -443,7 +443,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div id="call-modal">
   <div class="modal-content">
     <span id="close-call-modal">&times;</span>
-    <h3>📞 Gọi ngay</h3>
+    <!-- <h3>📞 Gọi ngay</h3> -->
     <p><a href="tel:0945360527" style="text-decoration: none; color: inherit;">📞 0945 360 527</a></p>
   </div>
 </div>
