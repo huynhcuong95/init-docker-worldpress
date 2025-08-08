@@ -126,7 +126,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  
  
 #chat-header {
-   background: #333;
+   background: #2196F3;
    color: white;
    padding: 0px 6px;
    font-weight: bold;
@@ -152,7 +152,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   line-height: 1.5; word-wrap: break-word;
 }
 .chat-msg.user .chat-bubble {
-  background: #007aff; color: white; border-bottom-right-radius: 4px;
+  background: rgb(104 115 178); color: white; border-bottom-right-radius: 4px;
 }
 .chat-msg.bot .chat-bubble {
   background: #e6e6e6; color: #222; border-bottom-left-radius: 4px;
@@ -167,29 +167,54 @@ if ( ! defined( 'ABSPATH' ) ) {
   background: white;
 }
 #chat-input {
-  flex: 1; padding: 10px 14px; border-radius: 20px;
-  border: 1px solid #ccc; font-size: 14px;
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 9999px;
+  border: 1px solid #ccc;
+  font-size: 15px;
   outline: none;
+  background-color: #f2f2f2;
+  transition: border-color 0.3s, background-color 0.3s;
 }
-#chat-send {
-  background: #007aff;
-  border: none;
-  margin-left: 8px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
+#chat-input:focus {
+  border-color: #007aff;
+  background-color: #fff;
 }
- 
-#chat-send svg {
-  width: 20px;
-  height: 20px;
-  fill: white;
-}
+  #chat-send {
+    background: linear-gradient(135deg, #69727d, #4f46e5);
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    margin-top: -2px;
+  }
+
+  #chat-send:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
+  }
+
+  #chat-send:active {
+    transform: scale(0.95);
+  }
+
+  #chat-send svg {
+    width: 20px;
+    height: 20px;
+    fill: white;
+    transition: transform 0.3s ease;
+  }
+
+  #chat-send:hover svg {
+    transform: rotate(15deg);
+  }
+
  
 #call-modal {
   display: none;
@@ -320,13 +345,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
  
 .typing-indicator {
-  animation: blinkText 1s infinite;
-  color: inherit; /* giữ nguyên màu chữ */
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
- 
-@keyframes blinkText {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.3; }
+
+.typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background-color: #888;
+  border-radius: 50%;
+  animation: blink 1.4s infinite both;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+  0% { opacity: 0.3; transform: scale(1); }
+  20% { opacity: 1; transform: scale(1.2); }
+  100% { opacity: 0.3; transform: scale(1); }
 }
  
 @media (max-width: 768px) {
@@ -405,6 +448,18 @@ if ( ! defined( 'ABSPATH' ) ) {
     height: 60px;
   }
 }
+
+#chat-header span {
+  margin-left: 10px
+}
+
+.avatar {
+  display: flex;
+  align-items: end;
+  margin-left: 4px;
+  margin-bottom: -4px;
+}
+
 </style>
  
 <!-- Nút mở chat -->
@@ -412,21 +467,25 @@ if ( ! defined( 'ABSPATH' ) ) {
   <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="chatbot" />
 </button>
  
- 
 <!-- Chatbox -->
 <div id="chat-container">
   <div id="chat-header">
-    <span>🤖 WorldElevator</span>
+    <span>Trợ lý ảo WorldElevator</span>
     <button id="chat-close" title="Đóng" style="margin-left:auto; background:none; border:none; font-size:20px; color:white; cursor:pointer;">−</button>
   </div>
   <div id="chat-messages"></div>
   <div id="chat-input-container">
     <input type="text" id="chat-input" placeholder="Nhập tin nhắn..."/>
-    <button id="chat-send" title="Gửi">
+    <!-- <button id="chat-send" title="Gửi">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path fill="white" d="M2 21l21-9L2 3v7l15 2-15 2z"/>
       </svg>
-  </button>
+  </button> -->
+  <button id="chat-send" title="Gửi">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"></path>
+  </svg>
+</button>
   </div>
 </div>
  
@@ -504,23 +563,37 @@ sendBtn.onclick = sendMessage;
 function appendMsg(type, text, isTyping = false) {
   const msg = document.createElement("div");
   msg.className = `chat-msg ${type}`;
+  
   const bubble = document.createElement("div");
   bubble.className = "chat-bubble";
-if (isTyping) {
-  bubble.classList.add("typing-indicator");
-  bubble.innerText = "Đang trả lời...";
-} else {
-  bubble.innerText = text;
-}
- 
+
+  if (isTyping) {
+    bubble.classList.add("typing-indicator");
+    bubble.innerHTML = `<span></span><span></span><span></span>`;
+  } else {
+    bubble.innerText = text;
+  }
+
+  // 👉 Thêm avatar cho cả user và bot
+  const wrap = document.createElement("div");
+  wrap.className = "avatar";
+
   if (type === "bot") {
-    const wrap = document.createElement("div");
-    wrap.className = "avatar";
-    wrap.textContent = "🤖";
+    // wrap.textContent = "🤖";
+wrap.innerHTML = `
+  <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Bot" width="40" height="40">
+
+`;
+    msg.appendChild(wrap);
+    msg.appendChild(bubble);
+  } else if (type === "user") {
+  wrap.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User" width="20" height="20">`;
+
+    // wrap.textContent = "👤"; // hoặc dùng ảnh
+    msg.appendChild(bubble);
     msg.appendChild(wrap);
   }
- 
-  msg.appendChild(bubble);
+
   messages.appendChild(msg);
   messages.scrollTop = messages.scrollHeight;
   return msg;
