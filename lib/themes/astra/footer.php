@@ -455,7 +455,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 @media (max-width: 768px) {
   .wrap-phone-border {
-    bottom: calc(160px - 60px/2 - 6px);
+    bottom: calc(140px - 60px/2 - 6px);
     right: calc(20px - 60px/2 - 6px);
     width: 60px;
     height: 60px;
