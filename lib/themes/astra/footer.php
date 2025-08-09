@@ -36,8 +36,8 @@ if ( ! defined( 'ABSPATH' ) ) {
   position: fixed;
   bottom: 70px;
   right: 40px;
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   border: unset;
   background: unset;
   z-index: 9999;
@@ -54,9 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   height: 100%;
   border-radius: 50 %;
   object-fit: contain; /* contain tốt hơn nếu ảnh nhỏ */
-  /* background-color: #fff; để lỡ có viền trắng sẽ hòa vào */
-  animation: pulse-inside 2s infinite;
-  /* box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); */
+  animation: robot-bounce 2s infinite;
 }
  
 @keyframes pulse-inside {
@@ -71,6 +69,17 @@ if ( ! defined( 'ABSPATH' ) ) {
   100% {
     transform: scale(1);
     filter: brightness(1);
+  }
+}
+
+@keyframes robot-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    filter: brightness(1);
+  }
+  50% {
+    transform: translateY(-5px) rotate(5deg);
+    filter: brightness(1.2);
   }
 }
  
@@ -152,7 +161,10 @@ if ( ! defined( 'ABSPATH' ) ) {
   line-height: 1.5; word-wrap: break-word;
 }
 .chat-msg.user .chat-bubble {
-  background: rgb(104 115 178); color: white; border-bottom-right-radius: 4px;
+  /* background: rgb(104 115 178);  */
+  background: #2196F3;
+  color: white; 
+  border-bottom-right-radius: 4px;
 }
 .chat-msg.bot .chat-bubble {
   background: #e6e6e6; color: #222; border-bottom-left-radius: 4px;
@@ -181,7 +193,8 @@ if ( ! defined( 'ABSPATH' ) ) {
   background-color: #fff;
 }
   #chat-send {
-    background: linear-gradient(135deg, #69727d, #4f46e5);
+    /* background: linear-gradient(135deg, #69727d, #4f46e5); */
+    background: #2196F3;
     border: none;
     border-radius: 50%;
     padding: 10px;
@@ -267,7 +280,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  
 #phone-call {
   position: fixed;
-  bottom: 200px;
+  bottom: 220px;
   right: 64px;
   width: 50px;
   height: 50px;
@@ -300,7 +313,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  
 #phone-call.shake {
   box-shadow: unset;
-  animation: shake 0.8s ease-in-out infinite;
+  /* animation: shake 0.8s ease-in-out infinite; */
 }
  
 #phone-call::after {
@@ -313,7 +326,7 @@ if ( ! defined( 'ABSPATH' ) ) {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: rgb(0 112 255 / 30%);
-  animation: phone-ripple 2s infinite ease-out;
+  /* animation: phone-ripple 2s infinite ease-out; */
   z-index: -1;
 }
  
@@ -331,18 +344,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     opacity: 0;
   }
 }
- 
-.wrap-phone-border {
-    position: fixed;
-    bottom: 156px;
-    right: 20px;
-    width: 70px;
-    height: 70px;
-    border-radius: 50px;
-    border: 1px solid rgb(0 112 255 / 30%);
-    background: transparent;
-    animation: phone-ripple 3s infinite ease-in;
-}
+
  
 .typing-indicator {
   display: inline-flex;
@@ -416,13 +418,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     height: 44px;
   }
  
-  .wrap-phone-border {
-    bottom: 110px;
-    right: 10px;
-    width: 60px;
-    height: 60px;
-  }
- 
   .modal-content {
     width: 90%;
     padding: 16px;
@@ -431,7 +426,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 .wrap-phone-border {
     position: fixed;
-    bottom: calc(200px - 70px/2 - 10px);
+    bottom: calc(220px - 70px/2 - 10px);
     right: calc( 64px - 70px/2 - 10px);
     width: 70px;
     height: 70px;
@@ -440,9 +435,27 @@ if ( ! defined( 'ABSPATH' ) ) {
     background: transparent;
     animation: phone-ripple 3s infinite ease-in;
 }
+
+/* Thêm nhãn "Gọi ngay" bên trái */
+#phone-call::after {
+    content: "Gọi ngay";
+    position: absolute;
+    left: -38px;
+    width: 120px;
+    height: 29px;
+    background-color: #2196F3;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
 @media (max-width: 768px) {
   .wrap-phone-border {
-    bottom: calc(140px - 60px/2 - 6px);
+    bottom: calc(160px - 60px/2 - 6px);
     right: calc(20px - 60px/2 - 6px);
     width: 60px;
     height: 60px;
@@ -464,13 +477,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  
 <!-- Nút mở chat -->
 <button id="chat-toggle" aria-label="Mở trợ lý">
-  <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png" alt="chatbot" />
+  <img src="https://worldcare-dev.s3.us-west-1.amazonaws.com/medhub/2b642b4a-fb97-413a-9f9d-46d5926b7d2b.png" alt="chatbot" />
 </button>
  
 <!-- Chatbox -->
 <div id="chat-container">
   <div id="chat-header">
-    <span>Trợ lý ảo WorldElevator</span>
+    <span>
+    <img src="https://worldcare-dev.s3.us-west-1.amazonaws.com/medhub/2b642b4a-fb97-413a-9f9d-46d5926b7d2b.png" alt="Bot" width="20" height="20" style="margin-right:5px">
+    Trợ lý ảo WorldElevator</span>
     <button id="chat-close" title="Đóng" style="margin-left:auto; background:none; border:none; font-size:20px; color:white; cursor:pointer;">−</button>
   </div>
   <div id="chat-messages"></div>
@@ -581,13 +596,12 @@ function appendMsg(type, text, isTyping = false) {
   if (type === "bot") {
     // wrap.textContent = "🤖";
 wrap.innerHTML = `
-  <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Bot" width="40" height="40">
+  <img src="https://worldcare-dev.s3.us-west-1.amazonaws.com/medhub/2b642b4a-fb97-413a-9f9d-46d5926b7d2b.png" alt="Bot" width="20" height="20">
 
 `;
     msg.appendChild(wrap);
     msg.appendChild(bubble);
   } else if (type === "user") {
-  wrap.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="User" width="20" height="20">`;
 
     // wrap.textContent = "👤"; // hoặc dùng ảnh
     msg.appendChild(bubble);
