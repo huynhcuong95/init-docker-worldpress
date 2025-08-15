@@ -625,6 +625,12 @@ async function sendMessage() {
     const res = await fetch(`https://5ol.1n8n.vn/webhook/86ed5d0f-82b9-4962-a971-638828c0c390?input=${encodeURIComponent(message)}`);
     const data = await res.text();
     loading.remove();
+
+    // Nếu API trả 200 nhưng nội dung rỗng
+    if (!data.trim()) {
+      data = "Cảm ơn bạn đã phản hồi!";
+    }
+
     appendMsg("bot", data);
   } catch {
     loading.remove();
