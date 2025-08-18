@@ -126,11 +126,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  
 #chat-container.show {
   display: flex !important;
-  animation: fadeScaleIn 0.3s ease-out forwards;
+  animation: fadeScaleIn 0.3s ease-out forwards !important;
 }
- 
+
 #chat-container.hide {
-  animation: fadeScaleOut 0.2s ease-in forwards;
+  animation: fadeScaleOut 0.2s ease-in forwards !important;
 }
  
  
@@ -145,9 +145,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
  
 #chat-messages {
-  padding: 16px; max-height: 400px; overflow-y: auto; background: #f8f8f8;
+  flex: 1; /* ✅ BẮT BUỘC để chiếm hết chiều cao còn lại */
+  padding: 16px;
   overflow-y: auto;
-  flex: 1;
+  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
 }
  
 .chat-msg {
@@ -158,7 +161,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  
 .chat-bubble {
   max-width: 70%; padding: 10px 14px; border-radius: 16px;
-  line-height: 1.5; word-wrap: break-word;
+  line-height: 1.5;
+  word-wrap: break-word; /* ✅ bắt buộc xuống dòng khi quá dài */
+  white-space: pre-wrap; /* ✅ giữ khoảng trắng & xuống dòng tự nhiên */
+  overflow-wrap: break-word; /* fallback tốt hơn cho các trình duyệt */
 }
 .chat-msg.user .chat-bubble {
   /* background: rgb(104 115 178);  */
@@ -473,6 +479,177 @@ if ( ! defined( 'ABSPATH' ) ) {
   margin-bottom: -4px;
 }
 
+#phone-call {
+  outline: none !important;
+}
+
+#phone-call:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+a:focus,
+button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+#chat-voice {
+  background: #ff5722;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  margin-left: 8px;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#chat-voice:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(255, 87, 34, 0.4);
+}
+
+#chat-voice:active {
+  transform: scale(0.95);
+}
+
+#chat-voice.listening {
+  background: #e53935; /* đỏ */
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.6); }
+  70% { box-shadow: 0 0 0 12px rgba(229, 57, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0); }
+}
+
+#chat-upload {
+  background: #4caf50;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  margin-left: 8px;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#chat-upload:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 18px rgba(76, 175, 80, 0.4);
+}
+
+#chat-upload:active {
+  transform: scale(0.95);
+}
+
+#chat-user-info {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  animation: fadeScaleIn 0.3s ease-out;
+}
+
+#chat-user-info h3 {
+  margin-bottom: 10px;
+  color: #2196F3;
+}
+
+#chat-user-info p {
+  margin-bottom: 15px;
+  color: #555;
+}
+
+#chat-user-info input {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
+}
+
+#chat-user-info input:focus {
+  border-color: #2196F3;
+}
+
+#chat-user-info .btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#chat-user-info button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+#start-chat {
+  background: #2196F3;
+  color: white;
+}
+
+#start-chat:hover {
+  background: #1976D2;
+}
+
+#skip-chat {
+  background: #ddd;
+  color: #333;
+}
+
+#skip-chat:hover {
+  background: #bbb;
+}
+
+#loading-user {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+.hidden {
+  display: none !important;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.wave-hand {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave-animation 2s infinite;
+}
+
+@keyframes wave-animation {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(14deg); }
+  20% { transform: rotate(-8deg); }
+  30% { transform: rotate(14deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(10deg); }
+  60% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
 </style>
  
 <!-- Nút mở chat -->
@@ -488,19 +665,32 @@ if ( ! defined( 'ABSPATH' ) ) {
     Trợ lý ảo WorldElevator</span>
     <button id="chat-close" title="Đóng" style="margin-left:auto; background:none; border:none; font-size:20px; color:white; cursor:pointer;">−</button>
   </div>
+
+<!-- Form nhập thông tin trước khi chat -->
+<div id="chat-user-info">
+  <div class="form-step">
+    <h3><span class="wave-hand">👋</span> Chào bạn</h3>
+    <p>Vui lòng nhập thông tin để bắt đầu trò chuyện</p>
+    <input type="text" id="user-name" placeholder="Họ và tên" required />
+    <input type="tel" id="user-phone" placeholder="Số điện thoại" required />
+    <div class="btn-group">
+      <button id="start-chat">Bắt đầu chat</button>
+      <button id="skip-chat">Bỏ qua</button>
+    </div>
+    <div id="loading-user" class="loading hidden">⏳ Đang xử lý...</div>
+  </div>
+</div>
+
   <div id="chat-messages"></div>
   <div id="chat-input-container">
     <input type="text" id="chat-input" placeholder="Nhập tin nhắn..."/>
-    <!-- <button id="chat-send" title="Gửi">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path fill="white" d="M2 21l21-9L2 3v7l15 2-15 2z"/>
-      </svg>
-  </button> -->
+   
   <button id="chat-send" title="Gửi">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M2 21l21-9L2 3v7l15 2-15 2v7z"></path>
   </svg>
 </button>
+ <button id="chat-voice" title="Nói chuyện">🎤</button>
   </div>
 </div>
  
@@ -533,6 +723,7 @@ const phoneBtn = document.getElementById("phone-call");
   const callModal = document.getElementById("call-modal");
   const closeCallModal = document.getElementById("close-call-modal");
  
+
 toggle.onclick = () => {
   toggle.style.display = "none";
   container.classList.remove("hide");
@@ -540,10 +731,11 @@ toggle.onclick = () => {
   container.classList.add("show");
  
   // Chỉ gửi câu chào 1 lần khi mở
-  if (!container.dataset.greeted) {
-    appendMsg("bot", "Xin chào! Tôi có thể giúp gì cho bạn?");
-    container.dataset.greeted = "true";
-  }
+  // if (!container.dataset.greeted) {
+  //   appendMsg("bot", "Xin chào! Tôi có thể giúp gì cho bạn?");
+  //   container.dataset.greeted = "true";
+  // }
+
 };
  
 closeBtn.onclick = () => {
@@ -551,7 +743,7 @@ closeBtn.onclick = () => {
   container.classList.add("hide");
   setTimeout(() => {
     container.style.display = "none";
-    toggle.style.display = "flex";
+    toggle.style.display = "";
   }, 200);
 };
  
@@ -637,6 +829,142 @@ async function sendMessage() {
     appendMsg("bot", "❌ Lỗi kết nối.");
   }
 }
+
+const voiceBtn = document.getElementById("chat-voice");
+
+// Ban đầu disable 2 nút
+sendBtn.disabled = true;
+voiceBtn.disabled = true;
+
+function enableChatButtons() {
+  sendBtn.disabled = false;
+  voiceBtn.disabled = false;
+}
+
+let recognition;
+let silenceTimer;
+let isProcessing = false; // ✅ tránh gửi 2 lần
+
+if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  recognition = new SpeechRecognition();
+  recognition.lang = "vi-VN";
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  recognition.onstart = () => {
+    appendMsg("bot", "🎙️ Tôi đang lắng nghe...");
+    voiceBtn.classList.add("listening");
+    isProcessing = false;
+  };
+
+  recognition.onresult = (event) => {
+    let transcript = "";
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      transcript += event.results[i][0].transcript;
+    }
+    transcript = transcript.trim();
+
+    // luôn show text tạm vào input
+    input.value = transcript;
+
+    // reset timer mỗi lần có tiếng nói
+    clearTimeout(silenceTimer);
+    silenceTimer = setTimeout(() => {
+      stopVoiceInput(transcript);
+    }, 3000);
+  };
+
+  recognition.onerror = () => {
+    appendMsg("bot", "❌ Không nghe rõ, thử lại nhé.");
+    voiceBtn.classList.remove("listening");
+    isProcessing = false;
+  };
+
+  recognition.onend = () => {
+    voiceBtn.classList.remove("listening");
+  };
+
+  function stopVoiceInput(finalText) {
+    if (isProcessing) return; // ✅ ngăn gửi 2 lần
+    isProcessing = true;
+
+    recognition.stop();
+    voiceBtn.classList.remove("listening");
+
+    if (finalText) {
+      input.value = finalText;
+      sendMessage(); // ✅ chỉ gửi 1 lần khi kết thúc 3s im lặng
+      input.value = "";
+    }
+  }
+
+  voiceBtn.onclick = () => {
+  if (voiceBtn.classList.contains("listening")) {
+    // Người dùng bấm để hủy khi đang nghe
+    clearTimeout(silenceTimer);   // ❌ hủy timer 3s
+    recognition.stop();
+    voiceBtn.classList.remove("listening");
+    isProcessing = false;
+  } else {
+    recognition.start();
+  }
+  };
+} else {
+  voiceBtn.style.display = "none";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("start-chat");
+  const skipBtn = document.getElementById("skip-chat");
+  const userInfoDiv = document.getElementById("chat-user-info");
+  const chatMessages = document.getElementById("chat-messages");
+  const loadingUser = document.getElementById("loading-user");
+  
+  let userData = null;
+
+  chatMessages.style.display = "none";
+
+  startBtn.onclick = async (e) => {
+    e.preventDefault(); // ❌ Ngăn reload page nếu trong form
+    const name = document.getElementById("user-name").value.trim();
+    const phone = document.getElementById("user-phone").value.trim();
+
+    if (!name || !phone) { alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+
+    loadingUser.classList.remove("hidden");
+
+    try {
+      const res = await fetch("https://api.congtyso.com/api/v1/data-customer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, phoneNumber:phone , typeBusiness:'THANG-MAY', resourceCustomer:'web'  })
+      });
+
+      if (res.ok) {
+        userData = { name, phone };
+        userInfoDiv.style.display = "none";
+        chatMessages.style.display = "flex"; // ✅ đổi block → flex nếu container dùng flex
+        enableChatButtons();
+        appendMsg("bot", `Xin chào ${name}! Bạn có thể bắt đầu chat ngay bây giờ 🎉`);
+      } else { alert("Không thể lưu thông tin. Vui lòng thử lại!"); }
+    } catch (err) {
+      console.error(err);
+      alert("Lỗi kết nối server!");
+    } finally { loadingUser.classList.add("hidden"); }
+  };
+
+  skipBtn.onclick = (e) => {
+    e.preventDefault();
+    userInfoDiv.style.display = "none";
+    chatMessages.style.display = "flex";
+    appendMsg("bot", "Xin chào! Bạn có thể bắt đầu chat ngay.");
+    enableChatButtons();
+  };
+});
+
 </script>
 <!-- 🌟 Chat Widget End -->
  
