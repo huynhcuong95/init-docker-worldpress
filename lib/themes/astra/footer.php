@@ -921,7 +921,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const skipBtn = document.getElementById("skip-chat");
   const userInfoDiv = document.getElementById("chat-user-info");
   const chatMessages = document.getElementById("chat-messages");
-  const loadingUser = document.getElementById("loading-user");
+  // const loadingUser = document.getElementById("loading-user");
   
   let userData = null;
 
@@ -934,7 +934,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!name || !phone) { alert("Vui lòng nhập đầy đủ thông tin!"); return; }
 
-    loadingUser.classList.remove("hidden");
+    // loadingUser.classList.remove("hidden");
 
     try {
       const res = await fetch("https://api.congtyso.com/api/v1/data-customer", {
@@ -953,7 +953,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       console.error(err);
       alert("Lỗi kết nối server!");
-    } finally { loadingUser.classList.add("hidden"); }
+    } finally {
+      alert("Lỗi kết nối server!");
+     }
   };
 
   skipBtn.onclick = (e) => {
