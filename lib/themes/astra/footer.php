@@ -937,7 +937,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // loadingUser.classList.remove("hidden");
 
     try {
-      const res = await fetch("https://api.congtyso.com/api/v1/data-customer", {
+      const res = await fetch("https://worldcare.vn/api/v1/data-customer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, phoneNumber:phone , typeBusiness:'THANG-MAY', resourceCustomer:'web'  })
