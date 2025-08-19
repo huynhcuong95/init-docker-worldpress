@@ -952,9 +952,9 @@ document.addEventListener("DOMContentLoaded", () => {
       } else { alert("Không thể lưu thông tin. Vui lòng thử lại!"); }
     } catch (err) {
       console.error(err);
-      alert("Lỗi kết nối server!");
+      // alert("Lỗi kết nối server!");
     } finally {
-      alert("Lỗi kết nối server!");
+      // alert("Lỗi kết nối server!");
      }
   };
 
