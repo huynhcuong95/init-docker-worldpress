@@ -896,8 +896,8 @@ if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
 
     if (finalText) {
       input.value = finalText;
-      sendMessage(); // ✅ chỉ gửi 1 lần khi kết thúc 3s im lặng
-      input.value = "";
+      // sendMessage(); // ✅ chỉ gửi 1 lần khi kết thúc 3s im lặng
+      // input.value = "";
     }
   }
 
