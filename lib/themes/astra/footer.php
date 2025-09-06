@@ -650,6 +650,12 @@ button:disabled {
   100% { transform: rotate(0deg); }
 }
 
+@supports (-webkit-touch-callout: none) {
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+}
+
 </style>
  
 <!-- Nút mở chat -->
